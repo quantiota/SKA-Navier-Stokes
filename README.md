@@ -32,7 +32,7 @@ Traditional methods reveal only the shape or statistical properties of a flow.
 
 * `data/` — Example datasets (or scripts to download/simulate)
 * `notebooks/` — Jupyter notebooks for SKA analysis and plotting
-* `src/` — Core SKA functions (import or adapt your existing SKA modules)
+* `src/` — Core SKA functions (existing SKA modules)
 * `figures/` — Publication-quality figures showing entropy during transitions
 
 
