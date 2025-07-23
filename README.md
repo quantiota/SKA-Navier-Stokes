@@ -48,3 +48,28 @@ Traditional tools require modeling and simulation of the full equations of motio
 **Contact / Collaborate:**  
 Pull requests, issues, and datasets welcome!
 
+## Citing SKA
+
+If you use SKA Navier-Stokes, please cite:
+
+* Bouarfa Mahi.
+  **Structured Knowledge Accumulation: An Autonomous Framework for Layer-Wise Entropy Reduction in Neural Learning**
+  [arXiv:2503.13942](https://arxiv.org/abs/2503.13942)
+* Bouarfa Mahi.
+  **Structured Knowledge Accumulation: The Principle of Entropic Least Action in Forward-Only Neural Learning**
+  [arXiv:2504.03214](https://arxiv.org/abs/2504.03214)
+
+```
+@article{mahi2025ska1,
+  title={Structured Knowledge Accumulation: An Autonomous Framework for Layer-Wise Entropy Reduction in Neural Learning},
+  author={Mahi, Bouarfa},
+  journal={arXiv preprint arXiv:2503.13942},
+  year={2025}
+}
+@article{mahi2025ska2,
+  title={Structured Knowledge Accumulation: The Principle of Entropic Least Action in Forward-Only Neural Learning},
+  author={Mahi, Bouarfa},
+  journal={arXiv preprint arXiv:2504.03214},
+  year={2025}
+}
+```
