@@ -1,30 +1,47 @@
-# 2D Laminar-Turbulent Transition Data Extractor
+# SKA Navier-Stokes Turbulence Data Extractors
 
-This specialized tool extracts 2D datasets from the JHTDB transition boundary layer dataset for analyzing laminar-turbulent transition phenomena.
+Comprehensive toolkit for extracting turbulence datasets from JHTDB for Structured Knowledge Accumulation (SKA) machine learning research and laminar-turbulent transition analysis.
 
-## Files Created
+## Repository Contents
 
-1. **`transition_2d_extractor.py`** - Main extractor class with specialized 2D analysis methods
-2. **`example_transition_analysis.py`** - Example usage scripts showing different analysis workflows
-3. **`turbulence_data_extractor.py`** - General-purpose turbulence data extractor (original conversion)
-4. **`requirements.txt`** - Python dependencies list
+### Core Extractors
+1. **`transition_2d_extractor.py`** - Specialized 2D laminar-turbulent transition analysis
+2. **`streaming_extractor.py`** - High-resolution time series extraction for QuestDB streaming
+3. **`ska_batch_extractor.py`** - Large-scale batch extraction for SKA ML training (3500+ samples)
+4. **`turbulence_data_extractor.py`** - General-purpose JHTDB data extractor
+5. **`multi_dataset_extractor.py`** - Combine multiple datasets (for testing token limitations)
 
-## Key Features for Transition Analysis
+### Utilities & Examples
+6. **`check_dataset_times.py`** - Analyze time resolution across different JHTDB datasets
+7. **`example_transition_analysis.py`** - Interactive examples for transition analysis workflows
+8. **`requirements.txt`** - Python dependencies list
 
-### 2D Analysis Methods
+### Generated Data Examples
+- **`results/`** - 2D transition analysis outputs (profiles, evolution, contours)
+- **`streaming_data/`** - QuestDB-ready streaming datasets
+- **`ska_training_data/`** - Large-scale training datasets for machine learning
 
-1. **Boundary Layer Profiles** - Extract wall-normal velocity profiles at specific streamwise locations
-2. **Streamwise Evolution** - Track flow development along the boundary layer at fixed heights
-3. **2D X-Y Planes** - Visualize complete transition regions with contour plots
-4. **Transition Indicators** - Compute shear rates, vorticity, and turbulence intensity
+## Key Features
 
-### Specialized Parameters
+### SKA Machine Learning Applications
+- **Large-scale datasets**: Extract 3500+ samples for neural network training
+- **High temporal resolution**: Up to 10 Hz equivalent time series
+- **Multi-point monitoring**: 20+ spatial locations with 3D velocity vectors
+- **QuestDB integration**: Real-time streaming data format
+- **Batch processing**: Efficient extraction of massive datasets
 
-- **Dataset**: Uses `transition_bl` (transitional boundary layer) from JHTDB
-- **Valid domain**: x=[30.2, 1000.0], y=[0.0, 26.5], z=[0, 240] (periodic)
-- **Spatial methods**: 'none' and 'fd4noint' for robust extraction
-- **Multiple variables**: velocity, pressure with field/gradient/laplacian operators
-- **Transition-optimized grids**: Fine resolution in critical boundary layer regions
+### 2D Transition Analysis
+- **Boundary Layer Profiles** - Wall-normal velocity profiles at streamwise locations
+- **Streamwise Evolution** - Track transition development along boundary layer
+- **2D X-Y Planes** - Complete transition region visualization
+- **Transition Indicators** - Shear rates, vorticity, turbulence intensity
+
+### Dataset Coverage
+- **`transition_bl`**: Laminar-turbulent boundary layer transition
+- **`isotropic1024coarse`**: High-resolution 3D isotropic turbulence (10 Hz)
+- **`channel`**: Wall-bounded turbulent channel flow
+- **`mixing`**: Homogeneous buoyancy-driven turbulence
+- **Multi-dataset**: Combine multiple sources for comprehensive training
 
 ## Quick Start
 
@@ -33,15 +50,33 @@ This specialized tool extracts 2D datasets from the JHTDB transition boundary la
 pip install -r requirements.txt
 ```
 
-2. **Command Line Usage**:
-```bash
-# Working example - boundary layer profile analysis
-python transition_2d_extractor.py --auth-token "edu.jhu.pha.turbulence.testing-201406" --output-path "./results" --mode profile --x-location 100.0
+2. **Get JHTDB Access Token**:
+   - Visit: http://turbulence.pha.jhu.edu/
+   - Register for research access (recommended for large datasets)
+   - Testing token available: `edu.jhu.pha.turbulence.testing-201406`
 
-# Other analysis types (use valid coordinates)
-python transition_2d_extractor.py --auth-token "your-token" --output-path "./results" --mode evolution --y-location 2.0
-python transition_2d_extractor.py --auth-token "your-token" --output-path "./results" --mode plane
+3. **Usage Examples**:
+
+### SKA Machine Learning Training
+```bash
+# Extract 3500 samples for SKA training (requires research token)
+python ska_batch_extractor.py --auth-token "your-research-token" --output-path "./ska_training" --samples 3500 --points 20
+
+# Check dataset time resolutions
+python check_dataset_times.py
+
+# High-resolution streaming data
+python streaming_extractor.py --auth-token "your-token" --dataset isotropic1024coarse --output-path "./streaming" --n-points 10 --time-steps 100
+```
+
+### 2D Transition Analysis
+```bash
+# Comprehensive boundary layer transition analysis
 python transition_2d_extractor.py --auth-token "your-token" --output-path "./results" --mode comprehensive
+
+# Specific analysis types
+python transition_2d_extractor.py --auth-token "your-token" --output-path "./results" --mode profile --x-location 100.0
+python transition_2d_extractor.py --auth-token "your-token" --output-path "./results" --mode evolution --y-location 2.0
 ```
 
 3. **Interactive Examples**:
@@ -102,10 +137,26 @@ For each analysis, the extractor generates:
 - **Critical locations**: x=100-500 for transition development, y=1-10 for boundary layer core
 - **Time snapshots**: Use t=0.0 as starting point (most reliable)
 
-## Authentication
+## Authentication & Research Access
 
-Get your JHTDB auth token from: http://turbulence.pha.jhu.edu/  
-The testing token `'edu.jhu.pha.turbulence.testing-201406'` works for basic testing, but get your own token for extended use.
+### Testing vs Research Tokens
+- **Testing Token**: `edu.jhu.pha.turbulence.testing-201406`
+  - Limited time ranges (50-100 samples per dataset)
+  - Good for initial testing and development
+  - Daily query limits
+  
+- **Research Token**: Register at http://turbulence.pha.jhu.edu/
+  - Full temporal ranges (1000s of samples available)
+  - Required for SKA training datasets (3500+ samples)
+  - Higher priority access and fewer limitations
+  - Recommended for serious research applications
+
+### Token Request Template
+When requesting research access, mention:
+- SKA (Structured Knowledge Accumulation) machine learning research
+- Large-scale turbulence dataset requirements (3500+ samples)
+- Institution: UJF, Quantiota
+- GitHub: [Your repository URL]
 
 ## Dependencies
 
