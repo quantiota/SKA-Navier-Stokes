@@ -2,7 +2,6 @@
 
 **A universal tool for detecting the loss of predictability in complex systems, powered by Structured Knowledge Accumulation (SKA).**
 
----
 
 > **Key Insight:**  
 > SKA uncovers the real-time “information geometry” of fluid flows—quantifying when a system is knowable, when it becomes unpredictable, and how knowledge evolves—**directly from the data, with no need for solving the Navier–Stokes equations.**
