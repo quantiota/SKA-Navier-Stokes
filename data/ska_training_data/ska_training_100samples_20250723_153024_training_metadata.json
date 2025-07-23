@@ -1,0 +1,26 @@
+{
+  "purpose": "SKA machine learning training",
+  "extraction_date": "2025-07-23T15:30:24.320354",
+  "total_samples": 100,
+  "spatial_points": 20,
+  "batch_extraction": true,
+  "n_batches": 1,
+  "target_samples": 3500,
+  "success_rate": 0.02857142857142857,
+  "time_resolution_hz": 10.0,
+  "domain_bounds": {
+    "x": [
+      0.0,
+      6.283185307179586
+    ],
+    "y": [
+      0.0,
+      6.283185307179586
+    ],
+    "z": [
+      0.0,
+      6.283185307179586
+    ]
+  },
+  "dataset_source": "isotropic1024coarse"
+}

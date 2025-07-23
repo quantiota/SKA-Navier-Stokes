@@ -1,0 +1,24 @@
+{
+  "velocity": {
+    "field": {
+      "x_location": 100.0,
+      "z_location": 0.0,
+      "time": 1.0,
+      "ny": 50,
+      "y_range": [
+        0.0,
+        10.0
+      ]
+    },
+    "gradient": {
+      "x_location": 100.0,
+      "z_location": 0.0,
+      "time": 1.0,
+      "ny": 50,
+      "y_range": [
+        0.0,
+        10.0
+      ]
+    }
+  }
+}
