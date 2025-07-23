@@ -12,8 +12,7 @@ We focus on detecting and visualizing the transition from **laminar (predictable
 
 ## Why SKA?
 
-Traditional methods reveal only the shape or statistical properties of a flow.
-**SKA exposes the hidden information structure**—it tracks entropy, knowledge, and information Lagrangian in real time, directly from the data, without prior models.
+Unlike traditional approaches, SKA requires no explicit solution of the governing equations. It extracts the hidden information geometry, knowledge evolution, and predictability landscape directly from measured or simulated data—opening new doors for analysis and understanding even when the underlying physics is unknown or unsolvable.
 
 * **Laminar regime:** SKA entropy is low and periodic (high predictability)
 * **Transition:** SKA entropy rises sharply (loss of predictability)
