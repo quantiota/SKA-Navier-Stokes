@@ -7,6 +7,7 @@ This specialized tool extracts 2D datasets from the JHTDB transition boundary la
 1. **`transition_2d_extractor.py`** - Main extractor class with specialized 2D analysis methods
 2. **`example_transition_analysis.py`** - Example usage scripts showing different analysis workflows
 3. **`turbulence_data_extractor.py`** - General-purpose turbulence data extractor (original conversion)
+4. **`requirements.txt`** - Python dependencies list
 
 ## Key Features for Transition Analysis
 
@@ -20,24 +21,30 @@ This specialized tool extracts 2D datasets from the JHTDB transition boundary la
 ### Specialized Parameters
 
 - **Dataset**: Uses `transition_bl` (transitional boundary layer) from JHTDB
-- **High-order interpolation**: `lag8` method for accurate gradient calculations
+- **Valid domain**: x=[30.2, 1000.0], y=[0.0, 26.5], z=[0, 240] (periodic)
+- **Spatial methods**: 'none' and 'fd4noint' for robust extraction
 - **Multiple variables**: velocity, pressure with field/gradient/laplacian operators
 - **Transition-optimized grids**: Fine resolution in critical boundary layer regions
 
 ## Quick Start
 
-1. **Command Line Usage**:
+1. **Install Dependencies**:
 ```bash
-# Comprehensive analysis (recommended for first use)
-python transition_2d_extractor.py --auth-token "your-token" --output-path "./results" --mode comprehensive
-
-# Specific analysis types
-python transition_2d_extractor.py --auth-token "your-token" --output-path "./results" --mode profile --x-location 5.0
-python transition_2d_extractor.py --auth-token "your-token" --output-path "./results" --mode evolution --y-location 0.1
-python transition_2d_extractor.py --auth-token "your-token" --output-path "./results" --mode plane
+pip install -r requirements.txt
 ```
 
-2. **Interactive Examples**:
+2. **Command Line Usage**:
+```bash
+# Working example - boundary layer profile analysis
+python transition_2d_extractor.py --auth-token "edu.jhu.pha.turbulence.testing-201406" --output-path "./results" --mode profile --x-location 100.0
+
+# Other analysis types (use valid coordinates)
+python transition_2d_extractor.py --auth-token "your-token" --output-path "./results" --mode evolution --y-location 2.0
+python transition_2d_extractor.py --auth-token "your-token" --output-path "./results" --mode plane
+python transition_2d_extractor.py --auth-token "your-token" --output-path "./results" --mode comprehensive
+```
+
+3. **Interactive Examples**:
 ```bash
 python example_transition_analysis.py
 # Choose from: comprehensive, multi-location, or time-series analysis
@@ -67,10 +74,17 @@ python example_transition_analysis.py
 
 ## Output Files
 
+For each analysis, the extractor generates:
+
 - **TSV files**: Raw data for each variable/operator combination
+  - `*_velocity_field.tsv` - Velocity field data  
+  - `*_velocity_gradient.tsv` - Velocity gradient data
 - **PNG plots**: Boundary layer profiles, streamwise evolution, contour plots
-- **HTML plots**: Interactive 3D visualizations (where applicable)
+  - `boundary_layer_profile.png` - Wall-normal velocity profile
+  - `streamwise_evolution.png` - Streamwise development  
+  - `xy_plane_contour.png` - 2D contour visualization
 - **JSON metadata**: Analysis parameters and grid information
+  - `*_metadata.json` - Complete analysis configuration
 
 ## Typical Workflow for Transition Studies
 
@@ -82,15 +96,16 @@ python example_transition_analysis.py
 
 ## Key Parameters for Transition Analysis
 
-- **Streamwise range**: 0-15 domain units (covers pre-transition to fully turbulent)
-- **Wall-normal range**: 0-2 domain units (includes entire boundary layer)
-- **Grid resolution**: 100-200 points streamwise, 80-100 wall-normal
-- **Critical locations**: x=5-8 for transition onset, y=0.1-0.3 for core boundary layer
+- **Streamwise range**: 30.2-1000 domain units (covers entire transition region)
+- **Wall-normal range**: 0-26.5 domain units (includes entire boundary layer)
+- **Grid resolution**: 50-200 points streamwise, 50-100 wall-normal
+- **Critical locations**: x=100-500 for transition development, y=1-10 for boundary layer core
+- **Time snapshots**: Use t=0.0 as starting point (most reliable)
 
 ## Authentication
 
-Get your JHTDB auth token from: http://turbulence.pha.jhu.edu/
-Replace `'edu.jhu.pha.turbulence.testing-201406'` with your actual token.
+Get your JHTDB auth token from: http://turbulence.pha.jhu.edu/  
+The testing token `'edu.jhu.pha.turbulence.testing-201406'` works for basic testing, but get your own token for extended use.
 
 ## Dependencies
 
