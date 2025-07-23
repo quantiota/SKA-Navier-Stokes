@@ -49,18 +49,18 @@ class TransitionExtractor2D:
         
         # Transition-specific parameters
         self.transition_config = {
-            'spatial_method': 'lag8',  # High-order interpolation for accuracy
+            'spatial_method': 'none',  # Start with simplest method
             'temporal_method': 'none',  # Single time snapshots
             'variables': ['velocity', 'pressure'],  # Key transition variables
             'spatial_operators': ['field', 'gradient', 'laplacian']  # For stability analysis
         }
         
     def extract_boundary_layer_profile(self,
-                                     time: float = 1.0,
-                                     x_location: float = 5.0,
+                                     time: float = 0.0,
+                                     x_location: float = 100.0,
                                      z_location: float = 0.0,
-                                     ny: int = 100,
-                                     y_range: Tuple[float, float] = (0.0, 2.0),
+                                     ny: int = 50,
+                                     y_range: Tuple[float, float] = (0.0, 10.0),
                                      variables: List[str] = None,
                                      operators: List[str] = None) -> Dict:
         """
@@ -98,9 +98,17 @@ class TransitionExtractor2D:
             for operator in operators:
                 print(f"  Extracting {variable} with {operator} operator...")
                 
+                # Choose appropriate spatial method based on operator
+                if operator == 'field':
+                    spatial_method = 'none'  # Start with simplest method
+                elif operator in ['gradient', 'hessian', 'laplacian']:
+                    spatial_method = 'fd4noint'  # Simplest gradient method
+                else:
+                    spatial_method = self.transition_config['spatial_method']
+                
                 result = getData(self.dataset, variable, time, 
                                self.transition_config['temporal_method'],
-                               self.transition_config['spatial_method'], 
+                               spatial_method, 
                                operator, points)
                 
                 results[variable][operator] = {
@@ -120,10 +128,10 @@ class TransitionExtractor2D:
     
     def extract_streamwise_evolution(self,
                                    time: float = 1.0,
-                                   y_location: float = 0.1,
+                                   y_location: float = 2.0,
                                    z_location: float = 0.0,
                                    nx: int = 200,
-                                   x_range: Tuple[float, float] = (0.0, 20.0),
+                                   x_range: Tuple[float, float] = (50.0, 500.0),
                                    variables: List[str] = None,
                                    operators: List[str] = None) -> Dict:
         """
@@ -161,9 +169,17 @@ class TransitionExtractor2D:
             for operator in operators:
                 print(f"  Extracting {variable} with {operator} operator...")
                 
+                # Choose appropriate spatial method based on operator
+                if operator == 'field':
+                    spatial_method = 'none'  # Start with simplest method
+                elif operator in ['gradient', 'hessian', 'laplacian']:
+                    spatial_method = 'fd4noint'  # Simplest gradient method
+                else:
+                    spatial_method = self.transition_config['spatial_method']
+                
                 result = getData(self.dataset, variable, time,
                                self.transition_config['temporal_method'],
-                               self.transition_config['spatial_method'],
+                               spatial_method,
                                operator, points)
                 
                 results[variable][operator] = {
@@ -186,8 +202,8 @@ class TransitionExtractor2D:
                         z_location: float = 0.0,
                         nx: int = 150,
                         ny: int = 100,
-                        x_range: Tuple[float, float] = (0.0, 15.0),
-                        y_range: Tuple[float, float] = (0.0, 2.0),
+                        x_range: Tuple[float, float] = (50.0, 400.0),
+                        y_range: Tuple[float, float] = (0.0, 20.0),
                         variables: List[str] = None,
                         operators: List[str] = None) -> Dict:
         """
@@ -231,9 +247,17 @@ class TransitionExtractor2D:
             for operator in operators:
                 print(f"  Extracting {variable} with {operator} operator...")
                 
+                # Choose appropriate spatial method based on operator
+                if operator == 'field':
+                    spatial_method = 'none'  # Start with simplest method
+                elif operator in ['gradient', 'hessian', 'laplacian']:
+                    spatial_method = 'fd4noint'  # Simplest gradient method
+                else:
+                    spatial_method = self.transition_config['spatial_method']
+                
                 result = getData(self.dataset, variable, time,
                                self.transition_config['temporal_method'],
-                               self.transition_config['spatial_method'],
+                               spatial_method,
                                operator, points)
                 
                 results[variable][operator] = {
@@ -425,9 +449,9 @@ def main():
     # Optional parameters
     parser.add_argument('--time', type=float, default=1.0,
                        help='Time snapshot to analyze')
-    parser.add_argument('--x-location', type=float, default=5.0,
+    parser.add_argument('--x-location', type=float, default=100.0,
                        help='Streamwise location for profile analysis')
-    parser.add_argument('--y-location', type=float, default=0.1,
+    parser.add_argument('--y-location', type=float, default=2.0,
                        help='Wall-normal location for evolution analysis')
     parser.add_argument('--no-plot', action='store_true',
                        help='Disable plotting')
